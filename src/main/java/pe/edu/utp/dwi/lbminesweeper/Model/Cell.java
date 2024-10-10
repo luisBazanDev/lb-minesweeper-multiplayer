@@ -1,35 +1,22 @@
 package pe.edu.utp.dwi.lbminesweeper.Model;
 
+import pe.edu.utp.dwi.lbminesweeper.domain.enums.CellState;
+
 public class Cell {
+    private final int x, y;
+    private CellState state;
+    /*
+    Values
+    -1 Mine
+    0-8 Value of mines around
+     */
+    private final int value;
 
-    private int x, y;
-    private boolean isBomb, hide, target;
-    private int value;
-
-    public Cell(int x, int y, boolean isBomb) {
+    public Cell(int x, int y, int value) {
         this.x = x;
         this.y = y;
-        this.isBomb = isBomb;
-        this.value = 0;
-        this.hide = false;
-        this.target = false;
-    }
-
-    public int calculateBombs(Cell[] gameCells){
-        if (this.isBomb) {
-            return -1;
-        }
-
-        int count = 0;
-
-        for (Cell row : gameCells) {
-            double distance = Math.sqrt(Math.pow(row.y - this.y, 2) + Math.pow(row.x - this.x, 2));
-            if (distance < 2 && row.isBomb) {
-                count++;
-            }
-        }
-
-        return count;
+        this.state = CellState.HIDDEN;
+        this.value = value;
     }
 
     public int getX() {
@@ -40,43 +27,33 @@ public class Cell {
         return y;
     }
 
-    public boolean isBomb() {
-        return isBomb;
+    public CellState getState() {
+        return state;
     }
 
-    public Integer getValue() {
+    public int getValue() {
         return value;
     }
 
-    public boolean isTarget() {
-        return target;
+    public boolean isMine() {
+        return this.value == -1;
     }
 
     public boolean isHide() {
-        return hide;
+        return state == CellState.HIDDEN;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void hide() {
+        this.state = CellState.HIDDEN;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void show() {
+        this.state = CellState.SHOW;
     }
 
-    public void setBomb(boolean bomb) {
-        isBomb = bomb;
-    }
-
-    public void setHide(boolean hide) {
-        this.hide = hide;
-    }
-
-    public void setValue(Integer value) {
-        this.value = value;
-    }
-
-    public void setTarget(boolean target) {
-        this.target = target;
+    @Override
+    public String toString() {
+        return String.format("%03d", this.value);
+        // return String.format("[%s] [%d,%d] %d", this.state.toString(), this.x, this.y, this.value);
     }
 }

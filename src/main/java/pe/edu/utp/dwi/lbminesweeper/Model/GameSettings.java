@@ -1,26 +1,26 @@
 package pe.edu.utp.dwi.lbminesweeper.Model;
 
 public class GameSettings {
-    private int HeightCells, WidthCells, OneOfEach;
+    private int height, width, OneOfEach;
 
-    public GameSettings(int heightCells, int widthCells, int OneOfEach) {
-        this.HeightCells = heightCells;
-        this.WidthCells = widthCells;
+    public GameSettings(int height, int width, int OneOfEach) {
+        this.height = height;
+        this.width = width;
         this.OneOfEach = OneOfEach;
     }
 
     public GameSettings() {
-        this.HeightCells = 20;
-        this.WidthCells = 20;
+        this.height = 20;
+        this.width = 20;
         this.OneOfEach = 7;
     }
 
-    public int getHeightCells() {
-        return HeightCells;
+    public int getHeight() {
+        return height;
     }
 
-    public int getWidthCells() {
-        return WidthCells;
+    public int getWidth() {
+        return width;
     }
 
     public int getOneOfEach() {
