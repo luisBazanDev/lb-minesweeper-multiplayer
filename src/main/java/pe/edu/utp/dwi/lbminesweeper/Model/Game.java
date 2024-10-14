@@ -123,7 +123,7 @@ public class Game {
                     stringBuilder.append(" ");
                     continue;
                 }
-                stringBuilder.append(String.format("%18s ", cell));
+                stringBuilder.append(String.format("%d ", cell.getValue()));
             }
             stringBuilder.append("\n");
         }
