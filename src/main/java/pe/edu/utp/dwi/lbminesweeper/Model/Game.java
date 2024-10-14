@@ -1,6 +1,9 @@
 package pe.edu.utp.dwi.lbminesweeper.Model;
 
 import pe.edu.utp.dwi.lbminesweeper.domain.enums.CellState;
+import pe.edu.utp.dwi.lbminesweeper.websockets.WebSocketServer;
+
+import java.io.IOException;
 
 public class Game {
     private GameSettings gameSettings;
@@ -130,4 +133,28 @@ public class Game {
 
         return stringBuilder.toString();
     }
+
+    public void processMove(int x, int y, boolean isFlag) throws IOException {
+        if (isFlag) {
+            // TODO: Implement flagging, wazan desgraciao
+        } else {
+            cells[x][y].show();
+            if (cells[x][y].isMine()) {
+                gameOver();
+            } else if (isWin()) {
+                //TODO: Check if the player has won with a method
+                win();
+            }
+        }
+        broadcastUpdate();
+    }
+
+    private void broadcastUpdate() throws IOException {
+        // Convert the game data to JSON in message
+        String message = "";
+        for (WebSocketServer socket : WebSocketServer.webSocketSet) {
+            socket.sendMessage(message);
+        }
+    }
+
 }
