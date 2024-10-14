@@ -5,75 +5,38 @@
   Time: 6:18 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="en">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Minesweeper Multiplayer</title>
+    <title>Minesweeper Game</title>
     <script type="text/javascript">
-        let socket;
-        let gameId = Math.random().toString(36).substring(7); // Random id for now
+        var socket = new WebSocket("ws://localhost:8080/LB-minesweeper/ws");
 
-        function connect() {
-            socket = new WebSocket("ws://localhost:8080/LB-minesweeper/ws/minesweeper");
+        socket.onopen = function() {
+            console.log("Connected to server");
+        };
 
-            socket.onopen = function () {
-                console.log("Connected to WebSocket server");
-            };
+        socket.onmessage = function(event) {
+            var gameData = JSON.parse(event.data);
+            console.log("Game Data Received: ", gameData);
+        };
 
-            socket.onmessage = function (event) {
-                const message = JSON.parse(event.data);
-                updateBoard(message);
-            };
+        socket.onclose = function() {
+            console.log("Connection closed");
+        };
 
-            socket.onclose = function () {
-                console.log("Disconnected from WebSocket server");
-            };
-
-            socket.onerror = function (error) {
-                console.log("WebSocket error: " + error);
-            };
+        function sendMove(x, y, isFlag) {
+            var move = JSON.stringify({x: x, y: y, isFlag: isFlag});
+            socket.send(move);
         }
-
-        function sendMove(x, y) {
-            const move = {
-                timestamp: Date.now(),
-                position: { x: x, y: y },
-                gameId: gameId
-            };
-            socket.send(JSON.stringify(move));
-        }
-
-        function updateBoard(data) {
-            // TODO: Implement logic for this function, i want do nothing here <3
-            console.log("Board Update Data sent ", data);
-        }
-
-        window.onload = connect;
     </script>
 </head>
 <body>
-<h1>Minesweeper Multiplayer</h1>
-
-<!-- Board Simulation until Wazan is able to implement it -->
-<table>
-    <tr>
-        <td onclick="sendMove(0, 0)">[ ]</td>
-        <td onclick="sendMove(0, 1)">[ ]</td>
-        <td onclick="sendMove(0, 2)">[ ]</td>
-    </tr>
-    <tr>
-        <td onclick="sendMove(1, 0)">[ ]</td>
-        <td onclick="sendMove(1, 1)">[ ]</td>
-        <td onclick="sendMove(1, 2)">[ ]</td>
-    </tr>
-    <tr>
-        <td onclick="sendMove(2, 0)">[ ]</td>
-        <td onclick="sendMove(2, 1)">[ ]</td>
-        <td onclick="sendMove(2, 2)">[ ]</td>
-    </tr>
-</table>
+<h1>Minesweeper Game</h1>
+<!-- Button to sample move -->
+<button onclick="sendMove(3, 4, false)">Make Move (3, 4)</button>
 </body>
 </html>
+
 

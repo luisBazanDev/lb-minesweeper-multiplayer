@@ -1,14 +1,18 @@
 package pe.edu.utp.dwi.lbminesweeper.Model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import pe.edu.utp.dwi.lbminesweeper.domain.enums.CellState;
 import pe.edu.utp.dwi.lbminesweeper.websockets.WebSocketServer;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Game {
     private GameSettings gameSettings;
     private Cell[][] cells;
     private boolean gameOver, isWin;
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     public Game(GameSettings gameSettings) {
         this.gameSettings = gameSettings;
@@ -136,25 +140,37 @@ public class Game {
 
     public void processMove(int x, int y, boolean isFlag) throws IOException {
         if (isFlag) {
-            // TODO: Implement flagging, wazan desgraciao
+            // TODO: Implement flagging
         } else {
             cells[x][y].show();
             if (cells[x][y].isMine()) {
                 gameOver();
-            } else if (isWin()) {
-                //TODO: Check if the player has won with a method
+            } else if (checkWin()) {
                 win();
             }
         }
         broadcastUpdate();
     }
 
+    private boolean checkWin() {
+        for (Cell[] row : cells) {
+            for (Cell cell : row) {
+                if (cell.isHide() && !cell.isMine()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     private void broadcastUpdate() throws IOException {
-        // Convert the game data to JSON in message
-        String message = "";
+        Map<String, Object> gameState = new HashMap<>();
+        gameState.put("cells", getObfuscatedCells());
+        gameState.put("gameOver", gameOver);
+        gameState.put("isWin", isWin);
+
+        String message = objectMapper.writeValueAsString(gameState);
         for (WebSocketServer socket : WebSocketServer.webSocketSet) {
             socket.sendMessage(message);
         }
     }
-
 }
