@@ -9,21 +9,54 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Game {
-    private GameSettings gameSettings;
-    private Cell[][] cells;
-    private boolean gameOver, isWin;
+    private final GameSettings gameSettings;
+    private final Cell[][] cells;
+    private boolean gameOver, isWin = false;
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     public Game(GameSettings gameSettings) {
         this.gameSettings = gameSettings;
         this.cells = new Cell[gameSettings.getWidth()][gameSettings.getHeight()];
-        this.gameOver = false;
-        this.isWin = false;
 
         fillCells();
     }
 
-    private void fillCells(){
+    public void discoverCell(int x, int y) {
+        Cell cell = cells[x][y];
+
+        if (!cell.isHide())
+            return;
+
+        if (cell.isMine()) {
+            gameOver = true;
+            cell.show();
+            return;
+        }
+
+        cell.show();
+        discoverRecursiveCells(x, y);
+
+        if(checkWin()) {
+            this.isWin = true;
+        }
+    }
+
+    private void discoverRecursiveCells(int x, int y) {
+        Cell targetCell = cells[x][y];
+        if(targetCell.getValue() != 0) return;
+
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                try {
+                    Cell cell = cells[i][j];
+                    cell.show();
+                    discoverRecursiveCells(i, j);
+                } catch (IndexOutOfBoundsException e) {}
+            }
+        }
+    }
+
+    private void fillCells() {
         int amount = this.gameSettings.getHeight() * this.gameSettings.getWidth() / this.gameSettings.getOneOfEach();
 
         for (int i = 0; i < amount; i++) {
