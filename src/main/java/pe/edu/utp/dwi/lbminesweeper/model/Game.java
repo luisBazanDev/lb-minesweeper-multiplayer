@@ -27,6 +27,8 @@ public class Game {
         if (!cell.isHide())
             return;
 
+        if (cell.isFlag()) return;
+
         if (cell.isMine()) {
             gameOver = true;
             cell.show();
@@ -41,9 +43,17 @@ public class Game {
         }
     }
 
+    private void toggleFlag(int x, int y) {
+        Cell cell = cells[x][y];
+
+        if(cell.isHide()) cell.flag();
+        if(cell.isFlag()) cell.hide();
+    }
+
     private void discoverRecursiveCells(int x, int y) {
         Cell targetCell = cells[x][y];
         if(targetCell.getValue() != 0) return;
+        if (targetCell.isFlag()) return;
 
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
@@ -106,7 +116,7 @@ public class Game {
     }
 
     /**
-     * 0-8 value, -2 hidden
+     * 0-8 value, -1 flag, -2 hidden
      * @return
      */
     public int[][] getObfuscatedCells() {
@@ -115,7 +125,7 @@ public class Game {
         for (int i = 0; i < gameSettings.getWidth(); i++) {
             for (int j = 0; j < gameSettings.getHeight(); j++) {
                 Cell cell = this.cells[i][j];
-                shadowCells[i][j] = cell.getState() == CellState.SHOW ? cell.getValue() : -2;
+                shadowCells[i][j] = cell.isHide() ? -2 : cell.isFlag() ? -1 : cell.getValue();
             }
         }
 

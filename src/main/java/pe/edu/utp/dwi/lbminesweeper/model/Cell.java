@@ -43,12 +43,20 @@ public class Cell {
         return state == CellState.HIDDEN;
     }
 
+    public boolean isFlag() {
+        return state == CellState.FLAG;
+    }
+
     public void hide() {
         this.state = CellState.HIDDEN;
     }
 
     public void show() {
         this.state = CellState.SHOW;
+    }
+
+    public void flag() {
+        this.state = CellState.FLAG;
     }
 
     @Override
