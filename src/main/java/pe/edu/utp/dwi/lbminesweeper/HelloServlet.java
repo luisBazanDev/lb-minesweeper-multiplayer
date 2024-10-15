@@ -4,6 +4,7 @@ import java.io.*;
 
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import pe.edu.utp.dwi.lbminesweeper.domain.ObfuscatedCell;
 import pe.edu.utp.dwi.lbminesweeper.model.Game;
 import pe.edu.utp.dwi.lbminesweeper.domain.GameSettings;
 
@@ -20,7 +21,7 @@ public class HelloServlet extends HttpServlet {
 
         Game game = new Game(new GameSettings());
 
-        int[][] obfuscatedCells = game.getObfuscatedCells();
+        ObfuscatedCell[][] obfuscatedCells = game.getObfuscatedCells();
 
         // Hello
         PrintWriter out = response.getWriter();
