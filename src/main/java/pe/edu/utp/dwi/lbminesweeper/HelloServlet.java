@@ -4,8 +4,8 @@ import java.io.*;
 
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import pe.edu.utp.dwi.lbminesweeper.Model.Game;
-import pe.edu.utp.dwi.lbminesweeper.Model.GameSettings;
+import pe.edu.utp.dwi.lbminesweeper.model.Game;
+import pe.edu.utp.dwi.lbminesweeper.model.GameSettings;
 
 @WebServlet(name = "helloServlet", value = "/hello-servlet")
 public class HelloServlet extends HttpServlet {

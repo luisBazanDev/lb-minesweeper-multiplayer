@@ -1,4 +1,4 @@
-package pe.edu.utp.dwi.lbminesweeper.Model;
+package pe.edu.utp.dwi.lbminesweeper.model;
 
 import pe.edu.utp.dwi.lbminesweeper.domain.enums.CellState;
 
