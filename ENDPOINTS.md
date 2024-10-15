@@ -21,6 +21,10 @@ Response
 `uuid-game` It's a UUID game
 302 /play?game=uuid-game
 
+---
+
+# WebSockets data packages
+
 ### ws://host:port/ws
 
 ```json
@@ -28,10 +32,6 @@ Response
   "gameId": uuid-game
 }
 ```
-
----
-
-# WebSockets data packages
 
 ### Server -> Client "sync" ALL
 
