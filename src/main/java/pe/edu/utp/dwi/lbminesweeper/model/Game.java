@@ -11,12 +11,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Game {
+    private final String uuid;
     private final GameSettings gameSettings;
     private final Cell[][] cells;
     private boolean gameOver, isWin = false;
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    public Game(GameSettings gameSettings) {
+    public Game(String uuid, GameSettings gameSettings) {
+        this.uuid = uuid;
         this.gameSettings = gameSettings;
         this.cells = new Cell[gameSettings.getWidth()][gameSettings.getHeight()];
 
@@ -114,6 +116,10 @@ public class Game {
 
     public Cell[][] getCells() {
         return cells;
+    }
+
+    public String getUuid() {
+        return uuid;
     }
 
     public ObfuscatedCell[][] getObfuscatedCells() {

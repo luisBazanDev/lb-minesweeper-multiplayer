@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import pe.edu.utp.dwi.lbminesweeper.domain.GameSettings;
 import pe.edu.utp.dwi.lbminesweeper.model.Game;
+import pe.edu.utp.dwi.lbminesweeper.service.GameProvider;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -13,25 +14,14 @@ import java.util.UUID;
 public class GameController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-
-        Game game = (Game) session.getAttribute("game");
-
         // JSP
         req.getRequestDispatcher("index.jsp").forward(req, resp);
     }
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-
-        Game game = (Game) session.getAttribute("game");
-
         UUID uuidGame = UUID.randomUUID();
+        Game game = new Game(uuidGame.toString(), new GameSettings());
 
-        if(game == null) {
-            game = new Game(new GameSettings());
-        }
-
-        req.setAttribute("game", game);
+        GameProvider.addGame(game);
 
         resp.sendRedirect(req.getContextPath() + "/play?uuidGame=" + uuidGame);
     }
