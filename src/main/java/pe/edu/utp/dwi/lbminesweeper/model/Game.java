@@ -1,7 +1,9 @@
 package pe.edu.utp.dwi.lbminesweeper.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import pe.edu.utp.dwi.lbminesweeper.domain.enums.CellState;
+import pe.edu.utp.dwi.lbminesweeper.domain.Cell;
+import pe.edu.utp.dwi.lbminesweeper.domain.GameSettings;
+import pe.edu.utp.dwi.lbminesweeper.domain.ObfuscatedCell;
 import pe.edu.utp.dwi.lbminesweeper.websockets.WebSocketServer;
 
 import java.io.IOException;
@@ -30,8 +32,7 @@ public class Game {
         if (cell.isFlag()) return;
 
         if (cell.isMine()) {
-            gameOver = true;
-            cell.show();
+            gameOver();
             return;
         }
 
@@ -39,7 +40,7 @@ public class Game {
         discoverRecursiveCells(x, y);
 
         if(checkWin()) {
-            this.isWin = true;
+            win();
         }
     }
 
@@ -115,17 +116,13 @@ public class Game {
         return cells;
     }
 
-    /**
-     * 0-8 value, -1 flag, -2 hidden
-     * @return
-     */
-    public int[][] getObfuscatedCells() {
-        int[][] shadowCells = new int[gameSettings.getWidth()][gameSettings.getHeight()];
+    public ObfuscatedCell[][] getObfuscatedCells() {
+        ObfuscatedCell[][] shadowCells = new ObfuscatedCell[gameSettings.getWidth()][gameSettings.getHeight()];
 
         for (int i = 0; i < gameSettings.getWidth(); i++) {
             for (int j = 0; j < gameSettings.getHeight(); j++) {
                 Cell cell = this.cells[i][j];
-                shadowCells[i][j] = cell.isHide() ? -2 : cell.isFlag() ? -1 : cell.getValue();
+                shadowCells[i][j] = new ObfuscatedCell(cell);
             }
         }
 
@@ -183,14 +180,9 @@ public class Game {
 
     public void processMove(int x, int y, boolean isFlag) throws IOException {
         if (isFlag) {
-            // TODO: Implement flagging
+            toggleFlag(x, y);
         } else {
-            cells[x][y].show();
-            if (cells[x][y].isMine()) {
-                gameOver();
-            } else if (checkWin()) {
-                win();
-            }
+            discoverCell(x, y);
         }
         broadcastUpdate();
     }

@@ -1,4 +1,4 @@
-package pe.edu.utp.dwi.lbminesweeper.model;
+package pe.edu.utp.dwi.lbminesweeper.domain;
 
 public class GameSettings {
     private int height, width, OneOfEach;
