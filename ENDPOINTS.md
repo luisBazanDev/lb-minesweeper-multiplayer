@@ -6,7 +6,8 @@
 {
   "x": int,
   "y": int,
-  "value": int // 0-8 values, -1 flag,  -2 hidden
+  "value": int, // 0-8 values, -1 flag,  -2 hidden,
+  "type": "NONE/MINE"
 }
 ```
 
