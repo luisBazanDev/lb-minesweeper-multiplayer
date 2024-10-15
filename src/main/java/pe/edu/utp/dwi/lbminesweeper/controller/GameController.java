@@ -15,7 +15,7 @@ public class GameController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // JSP
-        req.getRequestDispatcher("index.jsp").forward(req, resp);
+        req.getRequestDispatcher("home.jsp").forward(req, resp);
     }
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UUID uuidGame = UUID.randomUUID();
@@ -23,6 +23,6 @@ public class GameController extends HttpServlet {
 
         GameProvider.addGame(game);
 
-        resp.sendRedirect(req.getContextPath() + "/play?uuidGame=" + uuidGame);
+        resp.sendRedirect(req.getContextPath() + "/play?uuid=" + uuidGame);
     }
 }

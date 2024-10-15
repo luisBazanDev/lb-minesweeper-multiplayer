@@ -5,6 +5,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import pe.edu.utp.dwi.lbminesweeper.model.Game;
+import pe.edu.utp.dwi.lbminesweeper.service.GameProvider;
 
 import java.io.IOException;
 
@@ -12,6 +14,13 @@ import java.io.IOException;
 public class UiController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Game game = GameProvider.getGame(req.getParameter("uuid"));
+
+        if(game == null) {
+            resp.sendRedirect("./");
+            return;
+        }
+
         // JSP
         req.getRequestDispatcher("play.jsp").forward(req, resp);
     }

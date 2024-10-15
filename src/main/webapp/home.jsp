@@ -9,5 +9,8 @@
 </h1>
 <br/>
 <a href="hello-servlet">Hello Servlet</a>
+<form method="post" action="./">
+    <button type="submit">Send</button>
+</form>
 </body>
 </html>

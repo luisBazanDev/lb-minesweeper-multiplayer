@@ -19,7 +19,7 @@ public class HelloServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
 
-        Game game = new Game(new GameSettings());
+        Game game = new Game("wa", new GameSettings());
 
         ObfuscatedCell[][] obfuscatedCells = game.getObfuscatedCells();
 
