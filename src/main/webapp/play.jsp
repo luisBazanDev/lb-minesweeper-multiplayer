@@ -25,17 +25,32 @@
             }
         }
     </script>
+    <style>
+        .copyTool {
+            animation: popUp 300ms cubic-bezier(.42,.97,.52,1.49);
+        }
+
+        @keyframes popUp {
+            0% {
+                transform: translateY(50%);
+                opacity: .5;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="w-screen h-screen bg-lb_blue flex flex-col justify-between items-center">
         <div class="flex justify-between items-center pt-4 px-4 w-full">
-            <div class="text-lb_green font-bold text-4xl ml-4">LB Minesweeper Multiplayer</div>
+            <a class="text-lb_green font-bold text-4xl ml-4 cursor-pointer" href="./">LB Minesweeper Multiplayer</a>
             <div class="bg-lb_darkblue flex flex-col gap-2 p-4 rounded-lg mr-6 mt-4">
                 <div class="text-lb_lightblue text-nowrap">Invite your friends to join the game:</div>
-                <div class="flex gap-2 ">
-<%--                    TODO: link generation--%>
-                    <p class="p-2 bg-lb_green/30 text-lb_yellow text-nowrap">http://localhost:8080/LB-minesweeper/game?id=asiud-iaops-asd12</p>
-                    <button onclick="copyLink()" class="text-lb_blue bg-lb_green p-2 rounded-r-md">
+                <div class="flex gap-2 relative">
+                    <p id="copy-link" class="p-2 bg-lb_green/30 text-lb_yellow truncate w-96">Loading...</p>
+                    <button onclick="copied()" class="text-lb_blue bg-lb_green p-2 rounded-r-md">
                         <svg
                                 width="24"
                                 height="24"
@@ -54,7 +69,9 @@
                             />
                         </svg>
                     </button>
-<%--                    TODO: Button function--%>
+                    <div id="copied-tool" class="copyTool absolute right-0 bg-lb_darkblue text-lb_green p-1 -top-[100%] hidden">
+                        Copied!
+                    </div>
                 </div>
             </div>
         </div>
@@ -77,5 +94,16 @@
     <script src="js/modal.js"></script>
     <script src="js/core.js"></script>
     <script src="js/game.js"></script>
+
+    <script>
+        function copied () {
+            navigator.clipboard.writeText(window.location.toString());
+            const elem = document.getElementById("copied-tool");
+            elem.classList.remove("hidden")
+            setTimeout(() => elem.classList.add("hidden"), 1000);
+        }
+
+        document.getElementById("copy-link").innerText = window.location;
+    </script>
 </body>
 </html>
