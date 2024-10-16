@@ -58,7 +58,7 @@
             </div>
         </div>
         <div class="px-6 py-4 bg-lb_darkblue w-2/3 flex justify-center">
-            <canvas id="game" width="600" height="600" class="aspect-square"></canvas>
+            <canvas id="game" width="600" height="600" class="aspect-square cursor-pointer"></canvas>
         </div>
         <div class="text-lb_green/30 mb-4">Powered by <a href="https://mtocommunity.com" target="_blank" class="text-lb_green">MTO Crew</a> and Luis Ventura</div>
     </div>

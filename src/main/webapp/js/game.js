@@ -91,4 +91,6 @@ canvas.addEventListener("click", function (event) {
     // draw();
 });
 
+console.log(window.url.parameters.get("uuid"))
+
 draw();

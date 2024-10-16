@@ -13,6 +13,7 @@ public class WebSocketServer {
     @OnOpen
     public void onOpen(Session session) {
         this.session = session;
+        session.getRequestParameterMap().get("");
         webSocketSet.add(this);
         System.out.println("Player connected: " + session.getId());
     }
