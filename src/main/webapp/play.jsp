@@ -18,7 +18,8 @@
                         lb_blue: '#132237',
                         lb_green: '#1CBAAC',
                         lb_yellow: '#EBB723',
-                        lb_darkblue: '#0E1A29'
+                        lb_darkblue: '#0E1A29',
+                        lb_lightblue: '#0B4C6C'
                     }
                 }
             }
@@ -28,12 +29,12 @@
 <body>
     <div class="w-screen h-screen bg-lb_blue flex flex-col justify-between items-center">
         <div class="flex justify-between items-center pt-4 px-4 w-full">
-            <div class="text-lb_green font-bold text-2xl">LB Minesweeper Multiplayer</div>
-            <div class="bg-lb_darkblue flex flex-col gap-2 p-4 rounded-lg">
-                <div class="text-lb_green/50 text-nowrap">Invite your friends to join the game:</div>
+            <div class="text-lb_green font-bold text-4xl ml-4">LB Minesweeper Multiplayer</div>
+            <div class="bg-lb_darkblue flex flex-col gap-2 p-4 rounded-lg mr-6 mt-4">
+                <div class="text-lb_lightblue text-nowrap">Invite your friends to join the game:</div>
                 <div class="flex gap-2 ">
 <%--                    TODO: link generation--%>
-                    <p class="p-2 bg-lb_green/70 text-lb_yellow text-nowrap">http://localhost:8080/LB-minesweeper/game?id=asiud-iaops-asd12</p>
+                    <p class="p-2 bg-lb_green/30 text-lb_yellow text-nowrap">http://localhost:8080/LB-minesweeper/game?id=asiud-iaops-asd12</p>
                     <button onclick="copyLink()" class="text-lb_blue bg-lb_green p-2 rounded-r-md">
                         <svg
                                 width="24"
@@ -60,7 +61,7 @@
         <div class="px-6 py-4 bg-lb_darkblue w-2/3 flex justify-center">
             <canvas id="game" width="600" height="600" class="aspect-square"></canvas>
         </div>
-        <div class="text-lb_green/30 mb-4">Powered by <a href="https://mtocommunity.com" target="_blank" class="text-lb_green">MTO Crew</a> and Luis Ventura</div>
+        <div class="text-lb_lightblue mb-4">Powered by <a href="https://mtocommunity.com" target="_blank" class="text-lb_green hover:underline">MTO Crew</a> and Luis Ventura</div>
     </div>
     <script src="js/core.js"></script>
     <script src="js/game.js"></script>

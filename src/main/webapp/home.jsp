@@ -23,7 +23,6 @@
 
 <body>
 <div class="w-screen h-screen bg-lb_blue flex flex-col justify-between items-center">
-    <!-- Contenedor centrado con los elementos principales -->
     <div class="flex flex-col items-center space-y-12">
         <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +56,6 @@
         </div>
     </div>
 
-    <!-- Pie de página "Powered by" siempre en la parte inferior -->
     <div class="text-lb_lightblue mb-4 text-center">
         Powered by
         <a href="https://mtocommunity.com" target="_blank" class="text-lb_green hover:underline">
