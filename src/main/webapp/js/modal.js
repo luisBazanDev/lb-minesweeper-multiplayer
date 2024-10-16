@@ -17,6 +17,6 @@ function showModal(isWin) {
 
 function newGame() {
     document.getElementById("gameModal").classList.add("hidden");
-    // todo: logic to new game waaa
+    // TODO: Logic to new game
     console.log("New game started");
 }

@@ -59,10 +59,6 @@
             </div>
         </div>
 
-        //buttons to test the modal
-        <div><button onclick="showModal(true)">win test</button></div>
-        <div><button onclick="showModal(false)">lose test</button></div>
-
         <div class="px-6 py-4 bg-lb_darkblue w-2/3 flex justify-center">
             <canvas id="game" width="600" height="600" class="aspect-square cursor-pointer"></canvas>
         </div>
@@ -78,30 +74,7 @@
         </div>
     </div>
 
-    <script>
-        function showModal(isWin) {
-            const modal = document.getElementById("gameModal");
-            const modalMessage = document.getElementById("modalMessage");
-
-            if (isWin) {
-                modalMessage.textContent = "You cleared the field! You win!";
-                modalMessage.classList.remove("text-red-600");
-                modalMessage.classList.add("text-white");
-            } else {
-                modalMessage.textContent = "You triggered a mine! Game over";
-                modalMessage.classList.remove("text-white");
-                modalMessage.classList.add("text-red-600");
-            }
-
-            modal.classList.remove("hidden");
-        }
-
-        function newGame() {
-            document.getElementById("gameModal").classList.add("hidden");
-            // todo: logic to new game waaa
-            console.log("New game started");
-        }
-    </script>
+    <script src="js/modal.js"></script>
     <script src="js/core.js"></script>
     <script src="js/game.js"></script>
 </body>
