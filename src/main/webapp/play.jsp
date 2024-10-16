@@ -58,11 +58,50 @@
                 </div>
             </div>
         </div>
+
+        //buttons to test the modal
+        <div><button onclick="showModal(true)">win test</button></div>
+        <div><button onclick="showModal(false)">lose test</button></div>
+
         <div class="px-6 py-4 bg-lb_darkblue w-2/3 flex justify-center">
             <canvas id="game" width="600" height="600" class="aspect-square"></canvas>
         </div>
         <div class="text-lb_lightblue mb-4">Powered by <a href="https://mtocommunity.com" target="_blank" class="text-lb_green hover:underline">MTO Crew</a> and Luis Ventura</div>
     </div>
+
+    <div id="gameModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-60 z-50 select-none hidden">
+        <div class="bg-lb_darkblue p-6 rounded-lg shadow-lg text-center">
+            <h2 id="modalMessage" class="text-2xl font-bold mb-4"></h2>
+            <button onclick="newGame()" class="px-4 py-2 bg-lb_yellow text-white font-bold rounded hover:bg-lb_green/90 transition duration-300">
+                New Game
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function showModal(isWin) {
+            const modal = document.getElementById("gameModal");
+            const modalMessage = document.getElementById("modalMessage");
+
+            if (isWin) {
+                modalMessage.textContent = "You cleared the field! You win!";
+                modalMessage.classList.remove("text-red-600");
+                modalMessage.classList.add("text-white");
+            } else {
+                modalMessage.textContent = "You triggered a mine! Game over";
+                modalMessage.classList.remove("text-white");
+                modalMessage.classList.add("text-red-600");
+            }
+
+            modal.classList.remove("hidden");
+        }
+
+        function newGame() {
+            document.getElementById("gameModal").classList.add("hidden");
+            // todo: logic to new game waaa
+            console.log("New game started");
+        }
+    </script>
     <script src="js/core.js"></script>
     <script src="js/game.js"></script>
 </body>
