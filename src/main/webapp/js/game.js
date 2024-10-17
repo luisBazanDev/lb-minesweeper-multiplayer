@@ -54,6 +54,7 @@ canvas.addEventListener("click", function (event) {
 
     if (insideCellX && insideCellY && row < Game.getInstance().getSize() && col < Game.getInstance().getSize()) {
         console.log(`Click on row ${row}, col ${col}`);
+        GameSocket.getInstance().discoverCell(col, row);
     } else {
         console.log('Click on gap, not a cell');
     }

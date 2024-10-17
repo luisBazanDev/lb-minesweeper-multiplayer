@@ -18,9 +18,7 @@ class Game {
         this.state = state;
         for (let i = 0; i < cells.length; i++) {
             for (let j = 0; j < cells[i].length; j++) {
-                // {{x:  number, y: number, value: number, type: string}}
                 const cell = cells[i][j];
-                console.log(cell);
                 if(!this.cells[i]) this.cells[i] = [];
                 this.cells[i][j] = new Cell(cell)
             }

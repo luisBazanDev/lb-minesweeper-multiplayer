@@ -3,6 +3,10 @@ package pe.edu.utp.dwi.lbminesweeper.websockets;
 import com.google.gson.Gson;
 import jakarta.websocket.*;
 import jakarta.websocket.server.ServerEndpoint;
+import pe.edu.utp.dwi.lbminesweeper.command.DiscoverCommand;
+import pe.edu.utp.dwi.lbminesweeper.command.GenericCommand;
+import pe.edu.utp.dwi.lbminesweeper.command.SyncCommand;
+import pe.edu.utp.dwi.lbminesweeper.domain.enums.CommandType;
 import pe.edu.utp.dwi.lbminesweeper.service.GameProvider;
 import pe.edu.utp.dwi.lbminesweeper.service.WebsocketProvider;
 
@@ -39,7 +43,7 @@ public class WebSocketServer {
 
         WebsocketProvider.register(uuid, session);
 
-        session.getAsyncRemote().sendText(new Gson().toJson(GameProvider.getGame(uuid).getObfuscatedCells()));
+        session.getAsyncRemote().sendText(new SyncCommand(uuid).toString());
     }
 
     @OnClose
@@ -49,9 +53,25 @@ public class WebSocketServer {
     }
 
     @OnMessage
-    public void onMessage(String message) {
+    public void onMessage(String message, Session session) {
+        String uuid = session.getRequestParameterMap().get("uuid").getFirst();
+
+        System.out.println(uuid + ": " + message);
+
         System.out.println("Message received from player: " + message);
-        // Process the move and broadcast to all clients
+        GenericCommand genericCommand = new Gson().fromJson(message, GenericCommand.class);
+
+        switch (genericCommand.getType()) {
+            case CommandType.DISCOVER -> {
+                DiscoverCommand discoverCommand = new Gson().fromJson(message, DiscoverCommand.class);
+                System.out.printf("Discovered: X: %d Y: %d%n", discoverCommand.getX(), discoverCommand.getY());
+                GameProvider.getGame(uuid).processMove(discoverCommand.getX(), discoverCommand.getY(), false);
+
+                WebsocketProvider.broadcastMessage(uuid, new SyncCommand(uuid).toString());
+            }
+        }
+
+        System.out.println("Test 12");
     }
 
     public void sendMessage(String message) throws IOException {

@@ -41,4 +41,12 @@ public class WebsocketProvider {
         sessions.remove(sessions.iterator().next());
         sockets.remove(uuid);
     }
+
+    public static void broadcastMessage(String uuid, String message) {
+        Set<Session> sessions = sockets.get(uuid);
+        if (sessions == null) return;
+        for (Session session : sessions) {
+            session.getAsyncRemote().sendText(message);
+        }
+    }
 }

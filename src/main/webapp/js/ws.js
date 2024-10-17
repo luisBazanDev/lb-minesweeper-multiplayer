@@ -34,13 +34,29 @@ class GameSocket {
     }
 
     onMessage(event) {
-        console.log("Message event:");
         console.log(event);
-        GameSocket.getInstance().syncPackage(event.data);
+        const data = JSON.parse(event.data);
+
+        if(!data) return console.log("Error un interpret data");
+
+        // Commands
+        switch (data.type) {
+            case 'SYNC':
+                GameSocket.getInstance().syncPackage(data);
+                break;
+        }
     }
 
     syncPackage(data) {
-        Game.getInstance().sync({cells: JSON.parse(data), state: "PROGRESS"})
+        Game.getInstance().sync({cells: data.cells, state: data.state})
+    }
+
+    discoverCell(x, y) {
+        this.sendMessage({
+            type: "DISCOVER",
+            x: x,
+            y: y
+        });
     }
 
     /**
@@ -50,12 +66,7 @@ class GameSocket {
     sendMessage(message) {
         if(this.readyState !== this.OPEN) return;
 
-        const pack = {
-            uuid: UUID,
-            data: message
-        }
-
-        this.send(JSON.stringify(pack));
+        this.ws.send(JSON.stringify(message));
     }
 
     static getInstance() {

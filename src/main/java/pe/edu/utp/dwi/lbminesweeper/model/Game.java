@@ -39,7 +39,7 @@ public class Game {
         }
 
         cell.show();
-        discoverRecursiveCells(x, y);
+        if(cell.getValue() == 0) discoverRecursiveCells(x, y);
 
         if(checkWin()) {
             win();
@@ -54,16 +54,15 @@ public class Game {
     }
 
     private void discoverRecursiveCells(int x, int y) {
-        Cell targetCell = cells[x][y];
-        if(targetCell.getValue() != 0) return;
-        if (targetCell.isFlag()) return;
-
+        System.out.printf("Discovering recursive cells X: %d, Y %d%n", x, y);
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
                 try {
                     Cell cell = cells[i][j];
+                    if(!cell.isHide()) continue;
+                    if(cell.isFlag()) continue;
                     cell.show();
-                    discoverRecursiveCells(i, j);
+                    if(cell.getValue() == 0) discoverRecursiveCells(i, j);
                 } catch (IndexOutOfBoundsException e) {}
             }
         }
@@ -184,13 +183,12 @@ public class Game {
         return stringBuilder.toString();
     }
 
-    public void processMove(int x, int y, boolean isFlag) throws IOException {
+    public void processMove(int x, int y, boolean isFlag) {
         if (isFlag) {
             toggleFlag(x, y);
         } else {
             discoverCell(x, y);
         }
-        broadcastUpdate();
     }
 
     private boolean checkWin() {
@@ -202,16 +200,5 @@ public class Game {
             }
         }
         return true;
-    }
-    private void broadcastUpdate() throws IOException {
-        Map<String, Object> gameState = new HashMap<>();
-        gameState.put("cells", getObfuscatedCells());
-        gameState.put("gameOver", gameOver);
-        gameState.put("isWin", isWin);
-
-        String message = objectMapper.writeValueAsString(gameState);
-        for (WebSocketServer socket : WebSocketServer.webSocketSet) {
-            socket.sendMessage(message);
-        }
     }
 }
