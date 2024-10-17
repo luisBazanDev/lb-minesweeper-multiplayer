@@ -6,6 +6,7 @@ import jakarta.websocket.server.ServerEndpoint;
 import pe.edu.utp.dwi.lbminesweeper.command.DiscoverCommand;
 import pe.edu.utp.dwi.lbminesweeper.command.GenericCommand;
 import pe.edu.utp.dwi.lbminesweeper.command.SyncCommand;
+import pe.edu.utp.dwi.lbminesweeper.command.ToggleFlagCommand;
 import pe.edu.utp.dwi.lbminesweeper.domain.enums.CommandType;
 import pe.edu.utp.dwi.lbminesweeper.service.GameProvider;
 import pe.edu.utp.dwi.lbminesweeper.service.WebsocketProvider;
@@ -67,6 +68,12 @@ public class WebSocketServer {
                 System.out.printf("Discovered: X: %d Y: %d%n", discoverCommand.getX(), discoverCommand.getY());
                 GameProvider.getGame(uuid).processMove(discoverCommand.getX(), discoverCommand.getY(), false);
 
+                WebsocketProvider.broadcastMessage(uuid, new SyncCommand(uuid).toString());
+            }
+            case CommandType.TOGGLE_FLAG -> {
+                ToggleFlagCommand toggleFlagCommand = new Gson().fromJson(message, ToggleFlagCommand.class);
+                System.out.printf("Toggle flag: X: %d Y: %d%n", toggleFlagCommand.getX(), toggleFlagCommand.getY());
+                GameProvider.getGame(uuid).processMove(toggleFlagCommand.getX(), toggleFlagCommand.getY(), true);
                 WebsocketProvider.broadcastMessage(uuid, new SyncCommand(uuid).toString());
             }
         }

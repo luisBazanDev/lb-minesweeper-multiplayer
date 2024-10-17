@@ -29,12 +29,10 @@ canvas.addEventListener("contextmenu", function (event) {
 
     if (insideCellX && insideCellY && row < Game.getInstance().getSize() && col < Game.getInstance().getSize()) {
         console.log(`Click on row ${row}, col ${col}`);
+        GameSocket.getInstance().toggleFlagCell(col, row);
     } else {
         console.log('Click on gap, not a cell');
     }
-
-    // cellRightClick(cell);
-    // TODO: logic to click
 });
 
 // Left click
@@ -58,12 +56,6 @@ canvas.addEventListener("click", function (event) {
     } else {
         console.log('Click on gap, not a cell');
     }
-
-    // TODO: logic to click
-    // if (!game.gameOver) {
-    //     cellClick(cell);
-    // }
-    // draw();
 });
 
 console.log(window.location.toString().split("?uuid=").pop())

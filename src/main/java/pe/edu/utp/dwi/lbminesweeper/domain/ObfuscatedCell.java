@@ -17,7 +17,19 @@ public class ObfuscatedCell {
 		this.x = cell.getX();
 		this.y = cell.getY();
 		this.value = cell.isHide() ? -2 : cell.isFlag() ? -1 : cell.getValue();
-		this.type = cell.isHide() ? ObfuscatedCellType.NONE : cell.isMine() ? ObfuscatedCellType.MINE : ObfuscatedCellType.NONE;
+		this.type = cell.isHide() || cell.isFlag() ? ObfuscatedCellType.NONE : cell.isMine() ? ObfuscatedCellType.MINE : ObfuscatedCellType.NONE;
+	}
+
+	public ObfuscatedCell(Cell cell, boolean noObfuscation) {
+		this.x = cell.getX();
+		this.y = cell.getY();
+		this.value = cell.isHide() ? -2 : cell.isFlag() ? -1 : cell.getValue();
+		if(noObfuscation) {
+			this.type = cell.isMine() ? ObfuscatedCellType.MINE : ObfuscatedCellType.NONE;
+			this.value = cell.getValue() == -1 ? 0 : cell.getValue();
+		}
+		else
+			this.type = ObfuscatedCellType.NONE;
 	}
 
 	public int getX() {

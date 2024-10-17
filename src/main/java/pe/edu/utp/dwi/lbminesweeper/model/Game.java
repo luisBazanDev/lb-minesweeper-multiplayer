@@ -50,7 +50,7 @@ public class Game {
         Cell cell = cells[x][y];
 
         if(cell.isHide()) cell.flag();
-        if(cell.isFlag()) cell.hide();
+        else if(cell.isFlag()) cell.hide();
     }
 
     private void discoverRecursiveCells(int x, int y) {
@@ -127,7 +127,7 @@ public class Game {
         for (int i = 0; i < gameSettings.getWidth(); i++) {
             for (int j = 0; j < gameSettings.getHeight(); j++) {
                 Cell cell = this.cells[i][j];
-                shadowCells[i][j] = new ObfuscatedCell(cell);
+                shadowCells[i][j] = new ObfuscatedCell(cell, this.isWin() || this.isGameOver());
             }
         }
 

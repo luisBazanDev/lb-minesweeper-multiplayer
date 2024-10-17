@@ -59,6 +59,14 @@ class GameSocket {
         });
     }
 
+    toggleFlagCell(x, y) {
+        this.sendMessage({
+            type: "TOGGLE_FLAG",
+            x: x,
+            y: y
+        })
+    }
+
     /**
      * Send a message to server
      * @param {object} message
