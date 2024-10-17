@@ -1,9 +1,10 @@
 const canvas = document.getElementById("game");
 
 class Game {
-    constructor({cells, state}) {
-        this.state = state // WIN / GAME_OVER / PROGRESS
-        this.cells = cells;
+
+    constructor() {
+        this.state = "PROGRESS" // WIN / GAME_OVER / PROGRESS
+        this.cells = [];
 
         if(typeof Game.instance === "object") {
             return Game.instance;
@@ -13,8 +14,22 @@ class Game {
         return this;
     }
 
+    sync({cells, state}) {
+        this.state = state;
+        for (let i = 0; i < cells.length; i++) {
+            for (let j = 0; j < cells[i].length; j++) {
+                // {{x:  number, y: number, value: number, type: string}}
+                const cell = cells[i][j];
+                console.log(cell);
+                if(!this.cells[i]) this.cells[i] = [];
+                this.cells[i][j] = new Cell(cell)
+            }
+        }
+        this.draw();
+    }
+
     static getInstance() {
-        return Game.instance;
+        return new Game();
     }
 
     getSize() {

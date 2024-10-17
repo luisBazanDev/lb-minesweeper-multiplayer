@@ -1,7 +1,11 @@
 package pe.edu.utp.dwi.lbminesweeper.websockets;
 
+import com.google.gson.Gson;
 import jakarta.websocket.*;
 import jakarta.websocket.server.ServerEndpoint;
+import pe.edu.utp.dwi.lbminesweeper.service.GameProvider;
+import pe.edu.utp.dwi.lbminesweeper.service.WebsocketProvider;
+
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -13,9 +17,29 @@ public class WebSocketServer {
     @OnOpen
     public void onOpen(Session session) {
         this.session = session;
-        session.getRequestParameterMap().get("");
-        webSocketSet.add(this);
-        System.out.println("Player connected: " + session.getId());
+        System.out.println(session.getRequestParameterMap().get("uuid"));
+        if(session.getRequestParameterMap().get("uuid") == null) {
+            try {
+                session.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return;
+        }
+        String uuid = session.getRequestParameterMap().get("uuid").getFirst();
+
+        if(GameProvider.getGame(uuid) == null) {
+            try {
+                session.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return;
+        }
+
+        WebsocketProvider.register(uuid, session);
+
+        session.getAsyncRemote().sendText(new Gson().toJson(GameProvider.getGame(uuid).getObfuscatedCells()));
     }
 
     @OnClose

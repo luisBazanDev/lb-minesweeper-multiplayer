@@ -94,6 +94,7 @@
     <script src="js/modal.js"></script>
     <script src="js/core.js"></script>
     <script src="js/game.js"></script>
+    <script src="js/ws.js"></script>
 
     <script>
         function copied () {

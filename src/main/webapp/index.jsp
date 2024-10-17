@@ -42,7 +42,7 @@
             Work as a team, fulfill the dream!
         </div>
         <div class="flex flex-col items-center space-y-6">
-            <form action="./" method="post">
+            <form action="./create" method="post">
                 <button
                         type="submit"
                         class="px-12 py-2 bg-lb_yellow text-white font-bold text-lg rounded-md hover:bg-lb_green/90 transition duration-300"

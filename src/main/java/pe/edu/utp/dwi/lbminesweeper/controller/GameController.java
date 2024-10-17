@@ -10,13 +10,9 @@ import pe.edu.utp.dwi.lbminesweeper.service.GameProvider;
 import java.io.IOException;
 import java.util.UUID;
 
-@WebServlet(value = "/")
+@WebServlet(value = "/create")
 public class GameController extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // JSP
-        req.getRequestDispatcher("home.jsp").forward(req, resp);
-    }
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UUID uuidGame = UUID.randomUUID();
         Game game = new Game(uuidGame.toString(), new GameSettings());
