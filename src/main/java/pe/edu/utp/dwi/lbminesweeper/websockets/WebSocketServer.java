@@ -49,29 +49,23 @@ public class WebSocketServer {
     @OnClose
     public void onClose() {
         webSocketSet.remove(this);
-        System.out.println("Player disconnected: " + session.getId());
     }
 
     @OnMessage
     public void onMessage(String message, Session session) {
         String uuid = session.getRequestParameterMap().get("uuid").getFirst();
 
-        System.out.println(uuid + ": " + message);
-
-        System.out.println("Message received from player: " + message);
         GenericCommand genericCommand = new Gson().fromJson(message, GenericCommand.class);
 
         switch (genericCommand.getType()) {
             case CommandType.DISCOVER -> {
                 DiscoverCommand discoverCommand = new Gson().fromJson(message, DiscoverCommand.class);
-                System.out.printf("Discovered: X: %d Y: %d%n", discoverCommand.getX(), discoverCommand.getY());
                 GameProvider.getGame(uuid).processMove(discoverCommand.getX(), discoverCommand.getY(), false);
 
                 WebsocketProvider.broadcastMessage(uuid, new SyncCommand(uuid).toString());
             }
             case CommandType.TOGGLE_FLAG -> {
                 ToggleFlagCommand toggleFlagCommand = new Gson().fromJson(message, ToggleFlagCommand.class);
-                System.out.printf("Toggle flag: X: %d Y: %d%n", toggleFlagCommand.getX(), toggleFlagCommand.getY());
                 GameProvider.getGame(uuid).processMove(toggleFlagCommand.getX(), toggleFlagCommand.getY(), true);
                 WebsocketProvider.broadcastMessage(uuid, new SyncCommand(uuid).toString());
             }
@@ -82,8 +76,6 @@ public class WebSocketServer {
                 WebsocketProvider.broadcastMessage(uuid, new SyncCommand(uuid).toString());
             }
         }
-
-        System.out.println("Test 12");
     }
 
     public void sendMessage(String message) throws IOException {

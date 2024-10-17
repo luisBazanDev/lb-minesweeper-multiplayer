@@ -42,14 +42,18 @@ public class Game {
     }
 
     private void toggleFlag(int x, int y) {
-        Cell cell = cells[x][y];
+        Cell cell;
+        try {
+            cell = cells[x][y];
+        } catch (Exception e) {
+            return;
+        }
 
         if(cell.isHide()) cell.flag();
         else if(cell.isFlag()) cell.hide();
     }
 
     private void discoverRecursiveCells(int x, int y) {
-        System.out.printf("Discovering recursive cells X: %d, Y %d%n", x, y);
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
                 try {
