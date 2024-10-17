@@ -4,11 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import pe.edu.utp.dwi.lbminesweeper.domain.Cell;
 import pe.edu.utp.dwi.lbminesweeper.domain.GameSettings;
 import pe.edu.utp.dwi.lbminesweeper.domain.ObfuscatedCell;
-import pe.edu.utp.dwi.lbminesweeper.websockets.WebSocketServer;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Game {
     private final String uuid;
