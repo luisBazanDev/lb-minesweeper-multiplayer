@@ -15,8 +15,12 @@ function showModal(isWin) {
     modal.classList.remove("hidden");
 }
 
-function newGame() {
+function hideModal() {
     document.getElementById("gameModal").classList.add("hidden");
-    // TODO: Logic to new game
+}
+
+function newGame() {
+    hideModal();
+    GameSocket.getInstance().newGame();
     console.log("New game started");
 }

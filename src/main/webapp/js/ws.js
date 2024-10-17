@@ -49,6 +49,15 @@ class GameSocket {
 
     syncPackage(data) {
         Game.getInstance().sync({cells: data.cells, state: data.state})
+
+        if(data.state !== "PROGRESS") showModal(data.state === "WIN")
+        else hideModal();
+    }
+
+    newGame() {
+        this.sendMessage({
+            type: "NEW_GAME"
+        })
     }
 
     discoverCell(x, y) {

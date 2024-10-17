@@ -3,11 +3,10 @@ package pe.edu.utp.dwi.lbminesweeper.websockets;
 import com.google.gson.Gson;
 import jakarta.websocket.*;
 import jakarta.websocket.server.ServerEndpoint;
-import pe.edu.utp.dwi.lbminesweeper.command.DiscoverCommand;
-import pe.edu.utp.dwi.lbminesweeper.command.GenericCommand;
-import pe.edu.utp.dwi.lbminesweeper.command.SyncCommand;
-import pe.edu.utp.dwi.lbminesweeper.command.ToggleFlagCommand;
+import pe.edu.utp.dwi.lbminesweeper.command.*;
+import pe.edu.utp.dwi.lbminesweeper.domain.GameSettings;
 import pe.edu.utp.dwi.lbminesweeper.domain.enums.CommandType;
+import pe.edu.utp.dwi.lbminesweeper.model.Game;
 import pe.edu.utp.dwi.lbminesweeper.service.GameProvider;
 import pe.edu.utp.dwi.lbminesweeper.service.WebsocketProvider;
 
@@ -74,6 +73,12 @@ public class WebSocketServer {
                 ToggleFlagCommand toggleFlagCommand = new Gson().fromJson(message, ToggleFlagCommand.class);
                 System.out.printf("Toggle flag: X: %d Y: %d%n", toggleFlagCommand.getX(), toggleFlagCommand.getY());
                 GameProvider.getGame(uuid).processMove(toggleFlagCommand.getX(), toggleFlagCommand.getY(), true);
+                WebsocketProvider.broadcastMessage(uuid, new SyncCommand(uuid).toString());
+            }
+            case CommandType.NEW_GAME -> {
+                NewGameCommand newGameCommand = new Gson().fromJson(message, NewGameCommand.class);
+                Game newGame = new Game(uuid, new GameSettings());
+                GameProvider.addGame(newGame);
                 WebsocketProvider.broadcastMessage(uuid, new SyncCommand(uuid).toString());
             }
         }
